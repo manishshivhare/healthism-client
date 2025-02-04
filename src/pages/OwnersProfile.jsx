@@ -158,11 +158,11 @@ const GymOwnerProfile = () => {
               <div className="space-y-4 text-gray-300">
                 <div className="flex items-center gap-3">
                   <Mail className="text-orange-500" size={20} />
-                  <span>healthism24x7@gmail.com</span>
+                  <a href="mailto:healthism24x7@gmail.com"><span>healthism24x7@gmail.com</span></a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="text-orange-500" size={20} />
-                  <span>+91-8187906088</span>
+                  <a href="tel:8187906088"><span>+91-8187906088</span></a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Instagram className="text-orange-500" size={20} />

@@ -70,11 +70,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone size={18} />
-                <span className="text-sm">+91-8187906088</span>
+                <a href="tel:8187906088"><span className="text-sm">+91-8187906088</span></a>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail size={18} />
-                <span className="text-sm">healthism24x7@gmail.com</span>
+                <a href="mailto:healthism24x7@gmail.com"><span className="text-sm">healthism24x7@gmail.com</span></a>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock size={18} />
