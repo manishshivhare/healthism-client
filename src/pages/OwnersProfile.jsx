@@ -25,7 +25,7 @@ const GymOwnerProfile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black ">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black w-full ">
       <div className="fixed top-0 z-50 w-full ">
         <Navbar />
       </div>

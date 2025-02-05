@@ -1,4 +1,4 @@
-import  { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   ChevronDown,
   ChevronUp,
@@ -8,7 +8,7 @@ import {
   Star,
 } from "lucide-react";
 import { features } from "../content/siteContent.js";
-import AOS from "aos"
+import AOS from "aos";
 import "aos/dist/aos.css";
 
 const iconMap = {
@@ -49,24 +49,20 @@ const FeaturesTab = () => {
           ref={headerRef}
           data-aos="fade-up"
           className={`text-center mb-10 transition-all duration-1000 ${
-            headerVisible ? "translate-y-0 opacity-100" : "-translate-y-5 opacity-0"
+            headerVisible
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-5 opacity-0"
           }`}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2">
             <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[4rem] lg:text-[8rem]  opacity-10 select-none">
               FEATURES
             </span>
-            OUR GYM{" "}
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white hover:underline"
-            >
-              FEATURES
-            </a>
+            OUR GYM <span className="text-white hover:underline">FEATURES</span>
           </h2>
-          <p className="text-lg text-gray-400 mt-2">What makes us different from others</p>
+          <p className="text-lg text-gray-400 mt-2">
+            What makes us different from others
+          </p>
         </div>
 
         {/* Tabs Header */}
@@ -102,13 +98,19 @@ const FeaturesTab = () => {
               data-aos="fade-up"
               data-aos-delay={index * 100}
               className="bg-gray-900 p-6 rounded-xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-orange-500/50 hover:scale-105"
-              onClick={() => setExpandedFeature(expandedFeature === index ? null : index)}
+              onClick={() =>
+                setExpandedFeature(expandedFeature === index ? null : index)
+              }
               aria-expanded={expandedFeature === index}
             >
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-3">
-                  {iconMap[feature.title] || <Star className="w-6 h-6 text-gray-300" />}
-                  <h3 className="font-semibold text-lg text-gray-200">{feature.title}</h3>
+                  {iconMap[feature.title] || (
+                    <Star className="w-6 h-6 text-gray-300" />
+                  )}
+                  <h3 className="font-semibold text-lg text-gray-200">
+                    {feature.title}
+                  </h3>
                 </div>
                 {expandedFeature === index ? (
                   <ChevronUp className="w-6 h-6 text-orange-300" />
@@ -118,7 +120,9 @@ const FeaturesTab = () => {
               </div>
               <div
                 className={`mt-2 text-gray-400 transition-all duration-500 overflow-hidden ${
-                  expandedFeature === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                  expandedFeature === index
+                    ? "max-h-40 opacity-100"
+                    : "max-h-0 opacity-0"
                 }`}
               >
                 {feature.details}
