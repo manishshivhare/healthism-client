@@ -29,25 +29,9 @@ const NavbarLayout = ({ children }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  React.useEffect(() => {
-    const subscriptionSection = document.getElementById("subscription-section");
-    if (!subscriptionSection) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsSubscriptionVisible(entry.isIntersecting);
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(subscriptionSection);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div>
-      <div className="flex flex-col">
+      <div className=" flex flex-col">
         <nav
           className={`fixed w-full z-50 transition-all duration-300 ${
             isScrolled ? "py-2" : "py-4"
@@ -79,16 +63,14 @@ const NavbarLayout = ({ children }) => {
                   </Link>
                 ))}
 
-                {!isSubscriptionVisible && (
-                  <button
-                    onClick={handleJoinUs}
-                    className="text-white text-md font-bold px-6 py-2 rounded-full
+                <button
+                  onClick={handleJoinUs}
+                  className="text-white text-md font-bold px-6 py-2 rounded-full
                            border-2 border-orange-400 hover:bg-orange-400 
                            transition-all duration-300 transform hover:scale-105"
-                  >
-                    JOIN US
-                  </button>
-                )}
+                >
+                  JOIN US
+                </button>
               </div>
 
               {/* Mobile menu button */}
