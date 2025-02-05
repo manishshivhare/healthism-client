@@ -55,7 +55,7 @@ const FeaturesTab = () => {
           }`}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2">
-            <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[5rem] lg:text-[8rem] opacity-10 select-none ">
+            <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[3rem] lg:text-[8rem] opacity-10 select-none ">
               FEATURES
             </span>
             OUR GYM{" "}

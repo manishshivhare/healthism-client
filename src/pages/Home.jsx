@@ -10,7 +10,7 @@ import InstagramGallery from "../components/InstagramGallery";
 
 const Home = () => {
   return (
-    <div>
+    <div >
       <Header />
 
       <AboutUs />
