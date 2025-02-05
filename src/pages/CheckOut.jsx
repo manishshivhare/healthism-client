@@ -11,7 +11,6 @@ import { plans } from "../content/siteContent.js";
 
 const CheckoutPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [formData, setFormData] = useState({
@@ -167,7 +166,7 @@ const CheckoutPage = () => {
       <main className="flex-grow flex flex-col items-center py-8 px-4 sm:px-8">
         <div className="w-full max-w-screen-xl">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
-            Complete Your Subscription
+            Send Your Query
           </h1>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
@@ -344,7 +343,7 @@ const CheckoutPage = () => {
                 }`}
               >
                 <Send className="mr-2" size={20} />
-                {isSubmitting ? "Processing..." : "Complete Subscription"}
+                {isSubmitting ? "Processing..." : "Submit"}
               </button>
             </div>
           </div>
