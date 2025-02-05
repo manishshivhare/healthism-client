@@ -33,7 +33,7 @@ const SubscriptionCard = () => {
   };
 
   return (
-    <div className="w-full p-6 bg-black pt-10">
+    <div className="w-full p-6 bg-gradient-to-br from-black via-gray-900 to-black   pt-10" id="subscription-section">
       <div className="text-center mb-10">
         <div className="max-w-7xl mx-auto text-center">
           {/* Header Section */}
@@ -47,7 +47,7 @@ const SubscriptionCard = () => {
             }`}
           >
             <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2">
-              <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-5xl sm:text-6xl lg:text-[8rem] opacity-10 select-none">
+              <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[5rem] lg:text-[8rem]  opacity-10 select-none">
                 PLANS
               </span>
               CHOOSE YOUR{" "}
@@ -82,7 +82,7 @@ const SubscriptionCard = () => {
 
         {/* Card */}
         <div className="max-w-2xl mx-auto">
-          <div className="rounded-xl overflow-hidden bg-gray-800 transition-transform duration-300 border-b border-gray-600">
+          <div className="rounded-xl overflow-hidden bg-zinc-900 transition-transform duration-300 border-b border-gray-600">
             <div className="relative text-white">
               <img
                 src={plans[activeTab].image}
@@ -94,7 +94,7 @@ const SubscriptionCard = () => {
               </div>
             </div>
 
-            <div className="p-6 bg-black">
+            <div className="p-6 bg-gray-800">
               <h3 className="text-2xl text-white font-bold mb-4">
                 {plans[activeTab].description}
               </h3>

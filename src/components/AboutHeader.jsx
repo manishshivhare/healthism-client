@@ -9,7 +9,7 @@ const AboutHeader = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      once: false,
+      easing: "ease-in-out"
     });
 
     const handleScroll = () => {
@@ -26,12 +26,12 @@ const AboutHeader = () => {
   // Dynamic styles for scroll animations
   const headerStyles = {
     transform: `translateY(${scrollY * 0.5}px)`,
-    opacity: Math.max(1 - scrollY / 500, 0),
+    opacity: Math.max(1 - scrollY / 600, 0.5),
   };
 
   const textStyles = {
     transform: `translateY(${scrollY * 0.3}px)`,
-    opacity: Math.max(1 - scrollY / 700, 0),
+    opacity: Math.max(1 - scrollY / 400, 0),
   };
 
   return (
@@ -43,22 +43,13 @@ const AboutHeader = () => {
 
       {/* Background Image with Overlay */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(https://res.cloudinary.com/dkhwvrr2w/image/upload/v1737613653/inl7fsmzgsl437a6gttq.jpg)`,
-          ...headerStyles,
-        }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black "
+        
       >
-        {/* Dark overlay */}
-        {/* <div className="absolute inset-0 bg-black/60"></div> */}
-
         {/* Watermark "About Us" Text */}
-        <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={textStyles}
-        >
+        <div style={textStyles}>
           <h1
-            className="text-white text-[10vw] sm:text-[8rem] md:text-[10rem] font-bold   tracking-wide"
+            className="text-white text-[10vw] sm:text-[8rem] md:text-[10rem] font-bold tracking-wide"
             style={{
               WebkitTextStroke: "1px white",
               color: "transparent",
@@ -72,9 +63,9 @@ const AboutHeader = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-10 py-16 md:py-32 text-left pt-10">
-        <div className="max-w-3xl" data-aos="fade-right">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 pt-10">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-10 py-16 md:py-32 text-left flex items-center justify-center h-full">
+        <div className="max-w-3xl text-center" data-aos="fade-right">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
             Transform Your Body, Transform Your Life
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed">

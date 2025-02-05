@@ -36,7 +36,7 @@ const SubscriptionPage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-black text-white">
+    <div className="w-full min-h-screen bg-gradient-to-br from-black via-gray-900 to-black  text-white">
       {/* Navbar */}
       <div className="fixed top-0 z-50 w-full">
         <Navbar />

@@ -17,7 +17,7 @@ const ClassCard = ({
 
   return (
     <div
-      className="relative bg-zinc-900 rounded-lg shadow-lg overflow-hidden border border-zinc-800 transform transition-all duration-300 hover:scale-105"
+      className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-zinc-800 transform transition-all duration-300 hover:scale-105"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -143,7 +143,7 @@ const GymClasses = () => {
   }, [searchQuery, filterType]);
 
   return (
-    <section className="bg-black py-16 min-h-screen">
+    <section className="bg-gradient-to-br from-black via-gray-900 to-black py-16 min-h-screen">
       <div className="fixed top-0 z-50 w-full">
         <Navbar />
       </div>
@@ -151,13 +151,11 @@ const GymClasses = () => {
       <div className="container mx-auto px-4 pt-20 pb-4">
         <div ref={headerRef} className="text-center mb-16">
           <h2 className="text-[3rem] sm:text-[2.5rem] lg:text-[5rem] font-bold relative font-outline-2">
-            <span className="absolute inset-0 text-gray-400 font-extrabold tracking-wider text-[2rem] sm:text-[1rem] lg:text-[8rem] opacity-10 select-none">
+            <span className="absolute inset-0 text-gray-400 font-extrabold tracking-wider opacity-10 select-none text-[5rem] lg:text-[10rem]">
               CLASSES
             </span>
-            <span className="text-white">CLASSES</span>
-            <p className="text-white hover:underline cursor-pointer">
-              WE PROVIDE
-            </p>
+            <span className="text-white">CLASSES WE PROVIDE</span>
+            <p className="text-white hover:underline cursor-pointer"></p>
           </h2>
 
           <p className="text-gray-400 max-w-2xl mx-auto mt-6">

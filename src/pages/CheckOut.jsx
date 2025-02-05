@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { Check, Send } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Check, Send, Info, Calendar, User, Mail, Phone, MessageCircle } from "lucide-react";
 import DatePicker from "react-datepicker";
 import toast, { Toaster } from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,6 +11,7 @@ import { plans } from "../content/siteContent.js";
 
 const CheckoutPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [formData, setFormData] = useState({
@@ -27,6 +28,8 @@ const CheckoutPage = () => {
     email: "",
     query: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (location.state?.selectedPlan) {
@@ -110,21 +113,30 @@ const CheckoutPage = () => {
     }));
   };
 
+  const isFormValid = useMemo(() => {
+    const { name, email, phone, plan, startDate } = formData;
+    return (
+      name &&
+      email &&
+      phone &&
+      plan &&
+      startDate &&
+      !errors.phone &&
+      !errors.email &&
+      !errors.query
+    );
+  }, [formData, errors]);
+
   const handleSubmit = async () => {
-    const { name, email, phone, plan, startDate, query } = formData;
-
-    if (!name || !email || !phone || !plan || !startDate) {
-      toast.error("Please complete all required fields.");
+    if (!isFormValid) {
+      toast.error("Please complete all required fields correctly.");
       return;
     }
 
-    if (errors.phone || errors.email || errors.query) {
-      toast.error("Please fix the errors before submitting.");
-      return;
-    }
+    setIsSubmitting(true);
 
     try {
-      toast.loading("Processing...");
+      const { name, email, phone, plan, startDate, query } = formData;
       const response = await axios.post("/api/users/send-query", {
         name,
         email,
@@ -135,28 +147,20 @@ const CheckoutPage = () => {
       });
 
       if (response.status === 201) {
-        toast.dismiss();
         toast.success("Query submitted successfully!");
-        setFormData({
-          email: "",
-          name: "",
-          phone: "",
-          query: "",
-          startDate: null,
-          plan: formData.plan,
-        });
       } else {
         throw new Error("Failed to submit query.");
       }
     } catch (error) {
-      toast.dismiss();
       console.error("Error submitting query:", error);
       toast.error("An error occurred. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-gray-300 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-gray-300 flex flex-col">
       <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
 
@@ -169,14 +173,17 @@ const CheckoutPage = () => {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Plan Selection and Details */}
             <div className="space-y-6">
-              <div className="bg-gray-900 p-6 rounded-lg shadow-lg">
-                <label className="block text-lg font-medium text-white mb-4">
-                  Select Your Plan
-                </label>
+              <div className="bg-gray-900/60 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-2xl">
+                <div className="flex items-center mb-4">
+                  <Info className="mr-2 text-amber-500" size={24} />
+                  <label className="text-lg font-medium text-white">
+                    Select Your Plan
+                  </label>
+                </div>
                 <select
                   value={formData.plan}
                   onChange={handlePlanChange}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 mb-6"
+                  className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
                 >
                   <option value="">Choose a plan</option>
                   {Object.keys(plans).map((planName) => (
@@ -187,12 +194,12 @@ const CheckoutPage = () => {
                 </select>
 
                 {selectedPlan && (
-                  <div className="space-y-4">
+                  <div className="mt-6 space-y-4 p-4 bg-gray-800/50 rounded-lg">
                     <div>
                       <img
                         src={selectedPlan.image}
                         alt={selectedPlan.name}
-                        className="w-full h-48 object-cover rounded-lg mb-4"
+                        className="w-full h-48 object-cover rounded-lg mb-4 transform hover:scale-105 transition duration-300"
                       />
                       <h3 className="text-xl font-semibold text-amber-500">
                         {selectedPlan.description}
@@ -200,16 +207,17 @@ const CheckoutPage = () => {
                     </div>
 
                     <div>
-                      <h4 className="text-lg font-medium text-white mb-3">
+                      <h4 className="text-lg font-medium text-white mb-3 flex items-center">
+                        <Check className="mr-2 text-amber-500" size={20} />
                         Features Included:
                       </h4>
                       <ul className="space-y-2">
                         {selectedPlan.features.map((feature) => (
                           <li
                             key={feature}
-                            className="flex items-center text-gray-300"
+                            className="flex items-center text-gray-300 hover:text-white transition"
                           >
-                            <Check className="mr-2 text-amber-500" size={20} />
+                            <Check className="mr-2 text-amber-500" size={16} />
                             {feature}
                           </li>
                         ))}
@@ -221,10 +229,11 @@ const CheckoutPage = () => {
             </div>
 
             {/* Checkout Form */}
-            <div className="space-y-6 bg-gray-900 p-6 rounded-lg shadow-lg">
+            <div className="space-y-6 bg-gray-900/60 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-2xl">
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <Calendar className="mr-2 text-amber-500" size={16} />
                     Start Date *
                   </label>
                   <DatePicker
@@ -232,13 +241,15 @@ const CheckoutPage = () => {
                     onChange={handleDateChange}
                     minDate={new Date()}
                     dateFormat="yyyy-MM-dd"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
                     placeholderText="Select a start date"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                {/* Similar pattern for other form fields, adding icons and improving styling */}
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <User className="mr-2 text-amber-500" size={16} />
                     Full Name *
                   </label>
                   <input
@@ -247,12 +258,13 @@ const CheckoutPage = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter your full name"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <Mail className="mr-2 text-amber-500" size={16} />
                     Email Address *
                   </label>
                   <input
@@ -261,17 +273,18 @@ const CheckoutPage = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
                   />
                   {errors.email && (
-                    <div className="text-red-400 text-sm mt-2">
+                    <div className="text-red-400 text-sm mt-2 animate-pulse">
                       {errors.email}
                     </div>
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <Phone className="mr-2 text-amber-500" size={16} />
                     Phone Number *
                   </label>
                   <input
@@ -280,17 +293,18 @@ const CheckoutPage = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="Enter your phone number"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
                   />
                   {errors.phone && (
-                    <div className="text-red-400 text-sm mt-2">
+                    <div className="text-red-400 text-sm mt-2 animate-pulse">
                       {errors.phone}
                     </div>
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <MessageCircle className="mr-2 text-amber-500" size={16} />
                     Any Questions? (Optional)
                   </label>
                   <textarea
@@ -299,21 +313,21 @@ const CheckoutPage = () => {
                     onChange={handleInputChange}
                     placeholder="Enter any questions or special requirements"
                     rows={4}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out resize-none"
                   />
-                  <div className="text-sm mt-2">
+                  <div className="text-sm mt-2 flex justify-between">
                     <span
-                      className={
+                      className={`transition-colors duration-300 ${
                         formData.query.length > 200
-                          ? "text-red-400"
+                          ? "text-red-400 animate-pulse"
                           : "text-gray-400"
-                      }
+                      }`}
                     >
                       {200 - formData.query.length} characters remaining
                     </span>
                   </div>
                   {errors.query && (
-                    <div className="text-red-400 text-sm mt-2">
+                    <div className="text-red-400 text-sm mt-2 animate-pulse">
                       {errors.query}
                     </div>
                   )}
@@ -322,10 +336,15 @@ const CheckoutPage = () => {
 
               <button
                 onClick={handleSubmit}
-                className="w-full bg-orange-500 text-white py-4 rounded-lg hover:bg-orange-600 transition flex items-center justify-center font-semibold text-lg"
+                disabled={!isFormValid || isSubmitting}
+                className={`w-full text-white py-4 rounded-lg transition duration-300 ease-in-out flex items-center justify-center font-semibold text-lg ${
+                  isFormValid && !isSubmitting
+                    ? "bg-orange-500 hover:bg-orange-600 active:scale-95"
+                    : "bg-gray-600 cursor-not-allowed opacity-50"
+                }`}
               >
                 <Send className="mr-2" size={20} />
-                Complete Subscription
+                {isSubmitting ? "Processing..." : "Complete Subscription"}
               </button>
             </div>
           </div>

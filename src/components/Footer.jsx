@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Facebook,
   Instagram,
@@ -9,19 +11,26 @@ import {
 } from "lucide-react";
 
 const Footer = () => {
+  const quickLinks = [
+    { name: "Classes", link: "/classes" },
+    { name: "Membership", link: "/contact" },
+    { name: "About Us", link: "/about" },
+  ];
+
   return (
-    <footer className="bg-black text-gray-100 border-t border-gray-500">
+    <footer className="bg-gradient-to-br from-black via-gray-900 to-black  text-gray-400 border-t border-gray-500">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div>
             <h3 className="text-xl font-bold text-gray-100 mb-4">
               <img
-                src="https://res.cloudinary.com/dkhwvrr2w/image/upload/v1737615155/udz5qhgjlpoh7aywyyqp.png"
+                src="https://res.cloudinary.com/dzbuyze8t/image/upload/v1738736280/vtmphojr7qkmjsvc5t5i.png"
                 alt="Healthism"
+                className="h-12 w-auto"
               />
             </h3>
-            <p className="text-sm leading-relaxed">
+            <p className="text-base leading-relaxed">
               Transform your life with our state-of-the-art facilities and
               expert trainers. Join our fitness community today and achieve your
               health goals.
@@ -34,20 +43,14 @@ const Footer = () => {
               Quick Links
             </h4>
             <ul className="space-y-2">
-              {[
-                "Classes",
-                "Membership",
-                "Personal Training",
-                "Schedule",
-                "About Us",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
+              {quickLinks.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.link}
                     className="text-sm hover:text-orange-500 transition-colors duration-200"
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -62,7 +65,11 @@ const Footer = () => {
               <div className="flex items-center space-x-3">
                 <MapPin size={18} />
                 <span className="text-sm">
-                  <a href="https://maps.app.goo.gl/T7gphPz4wo5VQKcu8">
+                  <a
+                    href="https://maps.app.goo.gl/T7gphPz4wo5VQKcu8"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     First Floor, Skyline Plaza-3, Golf City, Sector B Ansal API,
                     Lucknow
                   </a>
@@ -70,11 +77,15 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone size={18} />
-                <a href="tel:8187906088"><span className="text-sm">+91-8187906088</span></a>
+                <a href="tel:8187906088">
+                  <span className="text-sm">+91-8187906088</span>
+                </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail size={18} />
-                <a href="mailto:healthism24x7@gmail.com"><span className="text-sm">healthism24x7@gmail.com</span></a>
+                <a href="mailto:healthism24x7@gmail.com">
+                  <span className="text-sm">healthism24x7@gmail.com</span>
+                </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock size={18} />
@@ -88,23 +99,26 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-white mb-4">Follow Us</h4>
             <div className="flex space-x-4">
               <a
+                href="https://facebook.com/healthism"
                 target="_blank"
-                href="#"
-                className="hover:text-white transition-colors duration-200"
+                rel="noopener noreferrer"
+                className="hover:text-orange-500 transition-colors duration-200"
               >
                 <Facebook size={24} />
               </a>
               <a
-                target="_blank"
                 href="https://www.instagram.com/healthism24x7/"
-                className="hover:text-white transition-colors duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-orange-500 transition-colors duration-200"
               >
                 <Instagram size={24} />
               </a>
               <a
+                href="https://twitter.com/healthism"
                 target="_blank"
-                href="#"
-                className="hover:text-white transition-colors duration-200"
+                rel="noopener noreferrer"
+                className="hover:text-orange-500 transition-colors duration-200"
               >
                 <Twitter size={24} />
               </a>

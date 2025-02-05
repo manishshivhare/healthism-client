@@ -42,7 +42,7 @@ const FeaturesTab = () => {
   }, []);
 
   return (
-    <div className="bg-black text-gray-300 p-6">
+    <div className="bg-gradient-to-br from-black via-gray-900 to-black  text-gray-300 p-6 h-screen">
       <div className="max-w-7xl mx-auto text-center">
         {/* Header Section */}
         <div
@@ -55,7 +55,7 @@ const FeaturesTab = () => {
           }`}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2">
-            <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-5xl sm:text-6xl lg:text-[8rem] opacity-10 select-none">
+            <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[5rem] lg:text-[8rem] opacity-10 select-none ">
               FEATURES
             </span>
             OUR GYM{" "}
@@ -86,8 +86,8 @@ const FeaturesTab = () => {
                 className={`flex items-center justify-center space-x-2 px-6 py-3 rounded-lg transition-all duration-300 
                   ${
                     activeTab === index
-                      ? "bg-orange-500 text-black transform scale-105 shadow-lg"
-                      : "bg-orange-600 text-white hover:bg-gray-300 hover:text-black"
+                      ? "bg-orange-500 text-white transform scale-105 shadow-lg"
+                      : "bg-gray-800 text-white hover:bg-gray-900 hover:text-white"
                   }`}
               >
                 <span className="font-semibold text-lg">

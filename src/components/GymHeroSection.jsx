@@ -12,9 +12,9 @@ const GymHeroSection = () => {
   ];
 
   const scrollToSubscriptions = () => {
-    const element = document.getElementById('subscription-section');
+    const element = document.getElementById("subscription-section");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -27,7 +27,7 @@ const GymHeroSection = () => {
     }, 5000);
 
     // Initialize AOS
-    AOS.init({ duration: 1000, easing: 'ease-in-out' });
+    AOS.init({ duration: 1000, easing: "ease-in-out" });
 
     return () => clearInterval(interval);
   }, []);
@@ -35,16 +35,12 @@ const GymHeroSection = () => {
   return (
     <div className="relative bg-black min-h-[500px] flex flex-col items-center justify-center p-8">
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black " />
 
       {/* Content container */}
       <div className="relative z-10 max-w-4xl w-full mx-auto text-center">
         {/* Logo placeholder - replace src with your actual logo */}
-        <div className="mb-12" data-aos="fade-up">
-          <div className="bg-black p-4 rounded-full inline-block mb-4">
-            <img className="h-[8rem]" src='https://res.cloudinary.com/dkhwvrr2w/image/upload/v1737615155/udz5qhgjlpoh7aywyyqp.png' alt="Healthism" />
-          </div>
-        </div>
+        <div className="mb-12" data-aos="fade-up"></div>
 
         {/* Animated quote section */}
         <div className="min-h-[120px]" data-aos="fade-up" data-aos-delay="200">
@@ -56,7 +52,7 @@ const GymHeroSection = () => {
         {/* CTA Button */}
         <button
           onClick={scrollToSubscriptions}
-          className="mt-8 px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg text-lg transition-colors duration-300"
+          className="mt-8 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg text-lg transition-colors duration-300"
           data-aos="zoom-in"
           data-aos-delay="400"
         >

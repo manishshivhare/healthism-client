@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Instagram } from "lucide-react";
-import {instagramImages} from "../content/siteContent"
+import { instagramImages } from "../content/siteContent";
 
 const InstagramGallery = () => {
- 
-
   const useElementOnScreen = (options) => {
     const containerRef = useRef(null);
     const [isVisible, setIsVisible] = React.useState(false);
@@ -26,10 +24,12 @@ const InstagramGallery = () => {
   };
 
   const [headerRef, headerVisible] = useElementOnScreen({ threshold: 0.2 });
-  const imageRefs = instagramImages.map(() => useElementOnScreen({ threshold: 0.2 }));
+  const imageRefs = instagramImages.map(() =>
+    useElementOnScreen({ threshold: 0.2 })
+  );
 
   return (
-    <div className="w-full bg-black min-h-screen py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
+    <div className="w-full bg-gradient-to-br from-black via-gray-900 to-black  min-h-screen py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
       {/* Instagram Follow Section */}
       <div
         ref={headerRef}
@@ -40,7 +40,7 @@ const InstagramGallery = () => {
         }`}
       >
         <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2">
-          <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-5xl sm:text-6xl lg:text-[8rem] opacity-10 select-none ">
+          <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[4rem] lg:text-[8rem] opacity-10 select-none ">
             INSTAGRAM
           </span>
           FOLLOW US ON{" "}

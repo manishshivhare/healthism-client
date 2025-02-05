@@ -38,7 +38,9 @@ const VideoPlayer = () => {
       <div
         ref={headerRef}
         className={`text-center bg-black mb-10 pb-10 sm:mb-12 transform transition-all duration-1000 ${
-          headerVisible ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"
+          headerVisible
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-10 opacity-0"
         }`}
         data-aos="fade-up"
       >
@@ -48,7 +50,7 @@ const VideoPlayer = () => {
             FACILITIES
           </span>
           <a
-            href="https://www.instagram.com"
+            href="https://www.youtube.com/watch?v=1Qj2Djn6jNs "
             target="_blank"
             rel="noopener noreferrer"
             className="text-white hover:underline"
@@ -56,7 +58,6 @@ const VideoPlayer = () => {
             FACILITIES
           </a>
         </h2>
-        
       </div>
 
       {/* Video Thumbnail */}
@@ -89,7 +90,7 @@ const VideoPlayer = () => {
             <iframe
               width="100%"
               height="100%"
-              src="https://www.youtube.com/watch?v=qkwwxaBODaA"
+              src="https://www.youtube.com/watch?v=1Qj2Djn6jNs"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

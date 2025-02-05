@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   return (
-    <header className="relative w-full h-screen">
+    <header className="relative w-full h-screen bg-gradient-to-br  ">
       {/* Navbar positioned at the top */}
       <div className="fixed top-0 z-50 w-full">
         <Navbar />
@@ -68,7 +68,7 @@ const Header = () => {
             Your browser does not support the video tag.
           </video>
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+          <div className="absolute inset-0"></div>
         </div>
 
         {/* Content Overlay */}
@@ -96,7 +96,7 @@ const Header = () => {
             <div className="flex justify-center gap-4 mb-8 font-bold">
               <button
                 onClick={scrollToSubscriptions}
-                className="text-white px-8 py-3 text-lg font-medium hover:bg-orange-600 transition-colors duration-200 border-2 rounded-md hover:border-transparent border-orange-600"
+                className="border-orange-500 border-2  hover:bg-transparent text-white px-8 py-3 text-lg font-medium bg-orange-500 transition-colors duration-200 rounded-md "
                 data-aos="fade-up"
                 data-aos-delay="400"
               >
