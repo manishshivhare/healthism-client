@@ -47,7 +47,7 @@ const NavbarLayout = ({ children }) => {
 
   return (
     <div>
-      <div className="min-h-screen flex flex-col">
+      <div className="flex flex-col">
         <nav
           className={`fixed w-full z-50 transition-all duration-300 ${
             isScrolled ? "py-2" : "py-4"
