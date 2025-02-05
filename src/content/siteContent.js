@@ -208,7 +208,7 @@ export const instagramImages = [
 ];
 export const features = [
   {
-    category: "Equipment & Space",
+    category: "Equipment",
     items: [
       {
         title: "65+ High Quality Equipments",
@@ -230,7 +230,7 @@ export const features = [
     ],
   },
   {
-    category: "Classes & Training",
+    category: "Classes",
     items: [
       {
         title: "Certified Coaches",
