@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import  { useState, useRef, useEffect } from "react";
 import {
   ChevronDown,
   ChevronUp,
@@ -8,8 +8,7 @@ import {
   Star,
 } from "lucide-react";
 import { features } from "../content/siteContent.js";
-import AOS from "aos";
-import { CgGym } from "react-icons/cg";
+import AOS from "aos"
 import "aos/dist/aos.css";
 
 const iconMap = {
