@@ -129,15 +129,13 @@ const GymOwnerProfile = () => {
                 About Me
               </h2>
               <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
-                Satvik, the Founder of Healthism24x7 Gym, is a certified
-                Bodybuilding Specialist with over five years of experience. As
-                an accredited S&H Coach, he has built a strong online presence,
-                amassing over 192k followers. With a passion for transforming
-                lives through fitness, he has guided hundreds of individuals on
-                their journey to better health. Committed to elevating the
-                fitness industry, Satvik founded his own gym to provide the best
-                possible support for people striving to achieve their health and
-                wellness goals.
+                Satvik Pandey is the founder of Healthism24x7 Gym and a
+                certified Bodybuilding Specialist with over 5 years of
+                experience. He is also an accredited S&H Coach and has gained a
+                following of 192k+ people online. Satvik has helped numerous
+                individuals improve their fitness through his coaching. He
+                opened his gym to address challenges within the fitness industry
+                and aims to help people achieve their health and fitness goals.
               </p>
             </section>
 
