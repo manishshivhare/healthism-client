@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Subscriptions from "./pages/SubscriptionPage";
 import CheckOut from "./pages/CheckOut";
 import GymOwnerProfile from "./pages/OwnersProfile";
 import GymClasses from "./pages/GymClasses";
@@ -13,7 +12,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/contact" element={<CheckOut />} />
         <Route path="/satvik-pandey" element={<GymOwnerProfile />} />
         <Route path="/classes" element={<GymClasses />} />
