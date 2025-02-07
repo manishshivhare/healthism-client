@@ -151,9 +151,6 @@ const GymClasses = () => {
       <div className="container mx-auto px-4 pt-20 pb-4">
         <div ref={headerRef} className="text-center mb-16">
           <h2 className="text-[3rem] sm:text-[2.5rem] lg:text-[5rem] font-bold relative font-outline-2">
-            <span className="absolute inset-0 text-gray-400 font-extrabold tracking-wider opacity-10 select-none text-[4rem] lg:text-[10rem]">
-              CLASSES
-            </span>
             <span className="text-white">CLASSES WE PROVIDE</span>
             <p className="text-white hover:underline cursor-pointer"></p>
           </h2>

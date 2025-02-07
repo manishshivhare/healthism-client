@@ -18,7 +18,10 @@ const AboutUs = () => {
             playsInline
             loading="lazy"
           >
-            <source src='https://asset.cloudinary.com/dkhwvrr2w/455b6d7191ca7f90c512f526f19e66cb' type="video/mp4" />
+            <source
+              src="https://asset.cloudinary.com/dkhwvrr2w/455b6d7191ca7f90c512f526f19e66cb"
+              type="video/mp4"
+            />
             Your browser does not support the video tag.
           </video>
 
@@ -29,16 +32,6 @@ const AboutUs = () => {
         {/* Content Section */}
         <div className="relative z-10 px-4 text-center">
           {/* ABOUT US Heading */}
-          <h1
-            className="text-[6rem] md:text-[8rem] lg:text-[10rem] font-bold font-outline-2 absolute w-full leading-none text-transparent tracking-wide"
-            data-aos="fade-up"
-            style={{
-              
-              opacity: 0.4,
-            }}
-          >
-            ABOUT US
-          </h1>
 
           <div className="relative z-20 mt-28 sm:mt-32">
             <span

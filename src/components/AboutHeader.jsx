@@ -40,15 +40,7 @@ const AboutHeader = () => {
 
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black">
-        <div style={headerStyles}>
-          <h1
-            className="text-white text-[10vw] sm:text-[8rem] md:text-[10rem] font-bold tracking-wide opacity-20 "
-            style={{ WebkitTextStroke: "1px white", color: "transparent" }}
-            
-          >
-            ABOUT US
-          </h1>
-        </div>
+        <div style={headerStyles}></div>
       </div>
 
       {/* Content */}
@@ -63,14 +55,17 @@ const AboutHeader = () => {
             trainers, and supportive community are here to help you reach your
             fitness goals.
           </p>
-          
+
           {/* Fitness Features with Advanced Animations */}
-          <div className="flex justify-center gap-8 mt-8 text-white" data-aos="fade-up">
+          <div
+            className="flex justify-center gap-8 mt-8 text-white"
+            data-aos="fade-up"
+          >
             <div className="flex flex-col items-center transform hover:scale-110 transition duration-500">
               <Dumbbell size={40} className="text-red-400 animate-bounce" />
               <p className="mt-2 text-lg font-semibold">Strength Training</p>
             </div>
-            <div className="flex flex-col items-center transform hover:scale-110 transition duration-500" >
+            <div className="flex flex-col items-center transform hover:scale-110 transition duration-500">
               <HeartPulse size={40} className="text-blue-400 animate-pulse" />
               <p className="mt-2 text-lg font-semibold">Cardio Workouts</p>
             </div>

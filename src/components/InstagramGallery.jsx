@@ -40,9 +40,6 @@ const InstagramGallery = () => {
         }`}
       >
         <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2">
-          <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-[2rem] lg:text-[8rem] opacity-10 select-none ">
-            INSTAGRAM
-          </span>
           FOLLOW US ON{" "}
           <a
             href="https://www.instagram.com"

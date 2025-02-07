@@ -46,9 +46,6 @@ const VideoPlayer = () => {
       >
         <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-transparent tracking-wide relative font-outline-2 bg-black">
           OUR
-          <span className="absolute inset-0 text-gray-800 font-extrabold tracking-wider text-5xl sm:text-6xl lg:text-[8rem] opacity-10 select-none">
-            FACILITIES
-          </span>
           <a
             href="https://www.youtube.com/watch?v=1Qj2Djn6jNs "
             target="_blank"
