@@ -1,6 +1,4 @@
-import { memo, useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { memo } from "react";
 import {
   Trophy,
   Medal,
@@ -15,7 +13,7 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// Existing constant data remains the same
+// Extracted constant data
 const ACCOMPLISHMENTS = [
   {
     icon: <Trophy className="text-orange-500 w-8 h-8" />,
@@ -54,7 +52,7 @@ const CONTACT_INFO = [
 ];
 
 const ProfileImage = memo(() => (
-  <div data-aos="fade-right" data-aos-duration="1000">
+  <div>
     <div className="w-40 h-40 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 border-orange-400">
       <img
         src="https://res.cloudinary.com/dkhwvrr2w/image/upload/v1738225371/satvik-pandey_bzbnlf.jpg"
@@ -73,21 +71,15 @@ const InfoBadge = memo(({ icon, text }) => (
   </span>
 ));
 
-const AccomplishmentCard = memo(({ icon, title, index }) => (
-  <div
-    data-aos="fade-up"
-    data-aos-delay={index * 100}
-    className="flex gap-4 items-center p-4 rounded-lg bg-gray-700 bg-opacity-50"
-  >
+const AccomplishmentCard = memo(({ icon, title }) => (
+  <div className="flex gap-4 items-center p-4 rounded-lg bg-gray-700 bg-opacity-50">
     {icon}
     <h3 className="font-semibold text-base lg:text-lg text-white">{title}</h3>
   </div>
 ));
 
-const ContactCard = memo(({ icon, text, href, index }) => (
+const ContactCard = memo(({ icon, text, href }) => (
   <a
-    data-aos="fade-left"
-    data-aos-delay={index * 100}
     href={href}
     target={href.startsWith("http") ? "_blank" : undefined}
     rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
@@ -99,14 +91,6 @@ const ContactCard = memo(({ icon, text, href, index }) => (
 ));
 
 const GymOwnerProfile = () => {
-  useEffect(() => {
-    AOS.init({
-      once: true,
-      offset: 50,
-      duration: 800,
-    });
-  }, []);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black w-full">
       <div className="fixed top-0 z-50 w-full">
@@ -118,11 +102,7 @@ const GymOwnerProfile = () => {
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
             <ProfileImage />
 
-            <div
-              data-aos="fade-left"
-              data-aos-duration="1000"
-              className="text-center lg:text-left space-y-4"
-            >
+            <div className="text-center lg:text-left space-y-4">
               <h1 className="text-4xl lg:text-6xl font-bold mb-2">
                 Satvik Pandey
               </h1>
@@ -144,10 +124,7 @@ const GymOwnerProfile = () => {
       <main className="container mx-auto px-4 py-12 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <section
-              data-aos="fade-up"
-              className="bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8"
-            >
+            <section className="bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8">
               <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-orange-400">
                 About Me
               </h2>
@@ -164,34 +141,26 @@ const GymOwnerProfile = () => {
               </p>
             </section>
 
-            <section
-              data-aos="fade-up"
-              data-aos-delay="200"
-              className="bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8"
-            >
+            <section className="bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8">
               <h2 className="text-2xl lg:text-3xl font-bold mb-8 text-orange-400">
                 Major Accomplishments
               </h2>
               <div className="grid gap-6">
                 {ACCOMPLISHMENTS.map((item, index) => (
-                  <AccomplishmentCard key={index} {...item} index={index} />
+                  <AccomplishmentCard key={index} {...item} />
                 ))}
               </div>
             </section>
           </div>
 
           <aside className="lg:col-span-1">
-            <div
-              data-aos="fade-left"
-              data-aos-delay="400"
-              className="bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8"
-            >
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8">
               <h2 className="text-2xl lg:text-3xl font-bold mb-8 text-orange-400">
                 Contact Information
               </h2>
               <div className="space-y-6">
                 {CONTACT_INFO.map((item, index) => (
-                  <ContactCard key={index} {...item} index={index} />
+                  <ContactCard key={index} {...item} />
                 ))}
               </div>
             </div>
