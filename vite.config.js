@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000", // Replace with your backend URL
+        target: "https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1", // Replace with your backend URL
         changeOrigin: true, // Needed for virtual hosted sites
         rewrite: (path) => path.replace(/^\//, ""), // Optionally rewrite paths
       },
