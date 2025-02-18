@@ -12,7 +12,7 @@ export default defineConfig({
         secure: false, // Allow self-signed certificates if needed
         rewrite: (path) => {
           console.log("Rewriting:", path); // Debugging
-          return path.replace(/^\//, "");
+          return path.replace(/^\/api/, "");
         },
       },
     },
