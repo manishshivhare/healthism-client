@@ -9,6 +9,8 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { plans } from "../content/siteContent.js";
 const API_BASE_URL = import.meta.env.PROD 
+  ? `https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1`
+  : `/api`;
 
 const CheckoutPage = () => {
   const location = useLocation();
