@@ -139,7 +139,7 @@ const CheckoutPage = () => {
 
     try {
       const { name, email, phone, plan, startDate, query } = formData;
-      const response = await axios.post(`${API_BASE_URL}/users/send-query`, {
+      const response = await axios.post(`${API_BASE_URL}/api/users/send-query`, {
         name,
         email,
         phone,
