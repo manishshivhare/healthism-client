@@ -8,9 +8,34 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { plans } from "../content/siteContent.js";
-const API_BASE_URL = import.meta.env.PROD 
-  ? `https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1`
-  : `/api`;
+const api = axios.create({
+  baseURL: import.meta.env.PROD 
+    ? 'https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1'
+    : '/api',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  withCredentials: true
+});
+
+// Add response interceptor for error handling
+api.interceptors.response.use(
+  response => response,
+  error => {
+    console.error('API Error:', error);
+    if (error.response) {
+      // Server responded with error
+      toast.error(error.response.data.message || 'Server error occurred');
+    } else if (error.request) {
+      // Request made but no response
+      toast.error('Unable to reach server. Please check your connection.');
+    } else {
+      // Error in request setup
+      toast.error('Error sending request. Please try again.');
+    }
+    return Promise.reject(error);
+  }
+);
 
 const CheckoutPage = () => {
   const location = useLocation();
