@@ -175,6 +175,7 @@ const CheckoutPage = () => {
 
       if (response.status === 201) {
         toast.success("Query submitted successfully!");
+        setFormData(null)
       } else {
         throw new Error("Failed to submit query.");
       }
