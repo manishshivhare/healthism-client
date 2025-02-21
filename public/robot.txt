@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /wp-content/uploads/
+Disallow: /wp-content/plugins/
+Disallow: /wp-admin/
+Sitemap:https://healthism.in/sitemap.xml
