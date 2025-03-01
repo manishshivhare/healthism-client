@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import logo from "../assets/healthism.png";
 
 const NavbarLayout = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -44,7 +45,7 @@ const NavbarLayout = ({ children }) => {
                 <Link to="/" className="font-bold text-2xl tracking-wider">
                   <img
                     className="w-auto h-[2rem]"
-                    src="https://res.cloudinary.com/dzbuyze8t/image/upload/v1738736280/vtmphojr7qkmjsvc5t5i.png"
+                    src={logo}
                     alt="Healthism"
                   />
                 </Link>
