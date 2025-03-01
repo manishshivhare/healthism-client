@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from "../assets/healthism.png";
 import {
   Facebook,
   Instagram,
@@ -25,7 +26,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold text-gray-100 mb-4">
               <img
-                src="https://res.cloudinary.com/dzbuyze8t/image/upload/v1738736280/vtmphojr7qkmjsvc5t5i.png"
+                src={logo}
                 alt="Healthism"
                 className="h-12 w-auto"
               />
