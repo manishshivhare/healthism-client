@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../assets/healthism.png";
 
 const NavbarLayout = ({ children }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [isSubscriptionVisible, setIsSubscriptionVisible] =
-    React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isSubscriptionVisible, setIsSubscriptionVisible] = useState(false);
+  const navRef = useRef(null);
 
   const navItems = [
     { label: "WHO WE ARE", to: "/about" },
@@ -21,7 +21,7 @@ const NavbarLayout = ({ children }) => {
     navigate("/contact");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -30,16 +30,39 @@ const NavbarLayout = ({ children }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Handle clicks outside the navbar
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Only respond if the mobile menu is open
+      if (isOpen && navRef.current && !navRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add the event listener when the component mounts and the menu is open
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }
+
+    // Clean up the event listener when the component unmounts or menu closes
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <div>
-      <div className=" flex flex-col">
+      <div className="flex flex-col">
         <nav
+          ref={navRef}
           className={`fixed w-full z-50 transition-all duration-300 ${
             isScrolled ? "py-2" : "py-4"
           }`}
         >
           <div className="max-w-7xl mx-auto px-4">
-            <div className="flex justify-between items-center backdrop-blur-lg   shadow-lg rounded-full px-2 py-2 bg-black/30">
+            <div className="flex justify-between items-center backdrop-blur-lg shadow-lg rounded-full px-2 py-2 bg-black/30">
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/" className="font-bold text-2xl tracking-wider">
@@ -75,7 +98,6 @@ const NavbarLayout = ({ children }) => {
               </div>
 
               {/* Mobile menu button */}
-
               <div className="md:hidden">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
@@ -109,7 +131,7 @@ const NavbarLayout = ({ children }) => {
             </div>
 
             {/* Mobile Navigation */}
-            <div className=" flex items-center ">
+            <div className="flex items-center">
               <div
                 className={`md:hidden absolute w-full left-0 top-full transition-all duration-300 transform ${
                   isOpen
