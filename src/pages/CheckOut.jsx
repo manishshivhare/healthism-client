@@ -1,6 +1,16 @@
 import { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Check, Send, Info, Calendar, User, Mail, Phone, MessageCircle } from "lucide-react";
+import {
+  Check,
+  Send,
+  Info,
+  Calendar,
+  User,
+  Mail,
+  Phone,
+  MessageCircle,
+  Loader,
+} from "lucide-react";
 import DatePicker from "react-datepicker";
 import toast, { Toaster } from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,30 +18,32 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { plans } from "../content/siteContent.js";
+
+// Create API instance with proper configuration
 const api = axios.create({
-  baseURL: import.meta.env.PROD 
-    ? 'https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1'
-    : '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 
+    (import.meta.env.PROD
+      ? "https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1"
+      : "/api"),
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json",
   },
-  
 });
 
 // Add response interceptor for error handling
 api.interceptors.response.use(
-  response => response,
-  error => {
-    console.error('API Error:', error);
+  (response) => response,
+  (error) => {
+    console.error("API Error:", error);
     if (error.response) {
       // Server responded with error
-      toast.error(error.response.data.message || 'Server error occurred');
+      toast.error(error.response.data.message || "Server error occurred");
     } else if (error.request) {
       // Request made but no response
-      toast.error('Unable to reach server. Please check your connection.');
+      toast.error("Unable to reach server. Please check your connection.");
     } else {
       // Error in request setup
-      toast.error('Error sending request. Please try again.');
+      toast.error("Error sending request. Please try again.");
     }
     return Promise.reject(error);
   }
@@ -39,25 +51,30 @@ api.interceptors.response.use(
 
 const CheckoutPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [formData, setFormData] = useState({
+  const initialFormState = {
     email: "",
     name: "",
     phone: "",
     query: "",
     startDate: null,
     plan: "",
-  });
+  };
 
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({
+    name: "",
     phone: "",
     email: "",
     query: "",
+    startDate: "",
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
+  // Set selected plan from location state if available
   useEffect(() => {
     if (location.state?.selectedPlan) {
       setSelectedPlan(location.state.selectedPlan);
@@ -68,15 +85,25 @@ const CheckoutPage = () => {
     }
   }, [location]);
 
+  // Handle plan selection change
   const handlePlanChange = (e) => {
     const planName = e.target.value;
-    setSelectedPlan(plans[planName]);
-    setFormData((prev) => ({
-      ...prev,
-      plan: planName,
-    }));
+    if (!planName) {
+      setSelectedPlan(null);
+      setFormData((prev) => ({ ...prev, plan: "" }));
+      return;
+    }
+    
+    const plan = plans[planName];
+    if (plan) {
+      setSelectedPlan(plan);
+      setFormData((prev) => ({ ...prev, plan: planName }));
+    } else {
+      toast.error("Selected plan not found. Please try again.");
+    }
   };
 
+  // Generic input change handler with validation
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -84,78 +111,115 @@ const CheckoutPage = () => {
       [name]: value,
     }));
 
-    if (name === "phone") validatePhone(value);
-    if (name === "email") validateEmail(value);
-    if (name === "query") validateQuery(value);
+    validateField(name, value);
   };
 
+  // Date selection handler
   const handleDateChange = (date) => {
     setFormData((prev) => ({
       ...prev,
       startDate: date,
     }));
+    validateField("startDate", date);
   };
 
-  const validatePhone = (value) => {
-    const phoneRegex = /^[6-9][0-9]{9}$/;
-    setErrors((prev) => ({
-      ...prev,
-      phone: !phoneRegex.test(value)
-        ? "Phone number must start with 6, 7, 8, or 9 and be 10 digits long"
-        : "",
-    }));
-  };
+  // Centralized field validation
+  const validateField = (fieldName, value) => {
+    let errorMessage = "";
 
-  const validateEmail = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const popularDomains = [
-      "gmail.com",
-      "yahoo.com",
-      "outlook.com",
-      "hotmail.com",
-    ];
-    const emailDomain = value.split("@")[1];
-
-    let error = "";
-    if (!emailRegex.test(value)) {
-      error = "Please enter a valid email address.";
-    } else if (emailDomain && !popularDomains.includes(emailDomain)) {
-      error = "The email domain seems uncommon. Please verify.";
+    switch (fieldName) {
+      case "name":
+        if (!value.trim()) {
+          errorMessage = "Name is required";
+        } else if (value.trim().length < 2) {
+          errorMessage = "Name must be at least 2 characters";
+        }
+        break;
+        
+      case "phone":
+        const phoneRegex = /^[6-9][0-9]{9}$/;
+        if (!value) {
+          errorMessage = "Phone number is required";
+        } else if (!phoneRegex.test(value)) {
+          errorMessage = "Phone number must start with 6, 7, 8, or 9 and be exactly 10 digits";
+        }
+        break;
+        
+      case "email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!value) {
+          errorMessage = "Email is required";
+        } else if (!emailRegex.test(value)) {
+          errorMessage = "Please enter a valid email address";
+        }
+        break;
+        
+      case "query":
+        const maxQueryLength = 200;
+        if (value && value.length > maxQueryLength) {
+          errorMessage = `Query must be under ${maxQueryLength} characters (${value.length}/${maxQueryLength})`;
+        }
+        break;
+        
+      case "startDate":
+        if (!value) {
+          errorMessage = "Start date is required";
+        }
+        break;
+        
+      default:
+        break;
     }
 
     setErrors((prev) => ({
       ...prev,
-      email: error,
+      [fieldName]: errorMessage,
     }));
+    
+    return !errorMessage;
   };
 
-  const validateQuery = (value) => {
-    const maxLength = 200;
-    setErrors((prev) => ({
-      ...prev,
-      query:
-        value.length > maxLength
-          ? `Query must be under ${maxLength} characters. (${value.length}/${maxLength})`
-          : "",
-    }));
+  // Validate all form fields at once
+  const validateForm = () => {
+    const fields = ["name", "email", "phone", "startDate"];
+    let isValid = true;
+    
+    fields.forEach(field => {
+      const value = formData[field];
+      const fieldValid = validateField(field, value);
+      if (!fieldValid) isValid = false;
+    });
+    
+    // Validate optional fields only if they have content
+    if (formData.query) {
+      const queryValid = validateField("query", formData.query);
+      if (!queryValid) isValid = false;
+    }
+    
+    // Check if plan is selected
+    if (!formData.plan) {
+      setErrors(prev => ({ ...prev, plan: "Please select a plan" }));
+      isValid = false;
+    }
+    
+    return isValid;
   };
 
+  // Check if form is valid without triggering validation messages
   const isFormValid = useMemo(() => {
-    const { name, email, phone, plan, startDate } = formData;
-    return (
-      name &&
-      email &&
-      phone &&
-      plan &&
-      startDate &&
-      !errors.phone &&
-      !errors.email &&
-      !errors.query
-    );
+    const { name, email, phone, plan, startDate, query } = formData;
+    const requiredFields = name && email && phone && plan && startDate;
+    const noErrors = !Object.values(errors).some(error => error);
+    
+    // For query, only consider it if it has content
+    const queryValid = !query || (query && !errors.query);
+    
+    return requiredFields && noErrors && queryValid;
   }, [formData, errors]);
 
+  // Form submission handler
   const handleSubmit = async () => {
-    if (!isFormValid) {
+    if (!validateForm()) {
       toast.error("Please complete all required fields correctly.");
       return;
     }
@@ -164,18 +228,21 @@ const CheckoutPage = () => {
 
     try {
       const { name, email, phone, plan, startDate, query } = formData;
-      const response = await api.post(`/api/users/send-query`, {
+      const response = await api.post("/users/send-query", { // Fixed endpoint path
         name,
         email,
         phone,
         plan,
-        startDate,
+        startDate: startDate.toISOString().split('T')[0], // Format date as YYYY-MM-DD
         query,
       });
 
       if (response.status === 201) {
         toast.success("Query submitted successfully!");
-        setFormData(null)
+        setFormSubmitted(true);
+        setFormData(initialFormState);
+        // Redirect after successful submission (optional)
+        setTimeout(() => navigate("/thank-you", { state: { planName: plan } }), 2000);
       } else {
         throw new Error("Failed to submit query.");
       }
@@ -187,201 +254,13 @@ const CheckoutPage = () => {
     }
   };
 
+  // Reset form handler
+  const handleReset = () => {
+    setFormData(initialFormState);
+    setErrors({});
+    setSelectedPlan(null);
+    setFormSubmitted(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-gray-300 flex flex-col">
-      <Toaster position="top-center" reverseOrder={false} />
-      <Navbar />
-
-      <main className="flex-grow flex flex-col items-center py-8 px-4 sm:px-8">
-        <div className="w-full max-w-screen-xl">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
-            Send Your Query
-          </h1>
-
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Plan Selection and Details */}
-            <div className="space-y-6">
-              <div className="bg-gray-900/60 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-2xl">
-                <div className="flex items-center mb-4">
-                  <Info className="mr-2 text-amber-500" size={24} />
-                  <label className="text-lg font-medium text-white">
-                    Select Your Plan
-                  </label>
-                </div>
-                <select
-                  value={formData.plan}
-                  onChange={handlePlanChange}
-                  className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
-                >
-                  <option value="">Choose a plan</option>
-                  {Object.keys(plans).map((planName) => (
-                    <option key={planName} value={planName}>
-                      {planName}
-                    </option>
-                  ))}
-                </select>
-
-                {selectedPlan && (
-                  <div className="mt-6 space-y-4 p-4 bg-gray-800/50 rounded-lg">
-                    <div>
-                      <img
-                        src={selectedPlan.image}
-                        alt={selectedPlan.name}
-                        className="w-full h-48 object-cover rounded-lg mb-4 transform hover:scale-105 transition duration-300"
-                      />
-                      <h3 className="text-xl font-semibold text-amber-500">
-                        {selectedPlan.description}
-                      </h3>
-                    </div>
-
-                    <div>
-                      <h4 className="text-lg font-medium text-white mb-3 flex items-center">
-                        <Check className="mr-2 text-amber-500" size={20} />
-                        Features Included:
-                      </h4>
-                      <ul className="space-y-2">
-                        {selectedPlan.features.map((feature) => (
-                          <li
-                            key={feature}
-                            className="flex items-center text-gray-300 hover:text-white transition"
-                          >
-                            <Check className="mr-2 text-amber-500" size={16} />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Checkout Form */}
-            <div className="space-y-6 bg-gray-900/60 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-2xl">
-              <div className="space-y-4">
-                <div className="relative">
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <Calendar className="mr-2 text-amber-500" size={16} />
-                    Start Date *
-                  </label>
-                  <DatePicker
-                    selected={formData.startDate}
-                    onChange={handleDateChange}
-                    minDate={new Date()}
-                    dateFormat="yyyy-MM-dd"
-                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
-                    placeholderText="Select a start date"
-                  />
-                </div>
-
-                {/* Similar pattern for other form fields, adding icons and improving styling */}
-                <div className="relative">
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <User className="mr-2 text-amber-500" size={16} />
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Enter your full name"
-                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
-                  />
-                </div>
-
-                <div className="relative">
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <Mail className="mr-2 text-amber-500" size={16} />
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Enter your email"
-                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
-                  />
-                  {errors.email && (
-                    <div className="text-red-400 text-sm mt-2 animate-pulse">
-                      {errors.email}
-                    </div>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <Phone className="mr-2 text-amber-500" size={16} />
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Enter your phone number"
-                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out"
-                  />
-                  {errors.phone && (
-                    <div className="text-red-400 text-sm mt-2 animate-pulse">
-                      {errors.phone}
-                    </div>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <MessageCircle className="mr-2 text-amber-500" size={16} />
-                    Any Questions? (Optional)
-                  </label>
-                  <textarea
-                    name="query"
-                    value={formData.query}
-                    onChange={handleInputChange}
-                    placeholder="Enter any questions or special requirements"
-                    rows={4}
-                    className="w-full px-4 py-3 bg-gray-800/70 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-300 ease-in-out resize-none"
-                  />
-                  <div className="text-sm mt-2 flex justify-between">
-                    <span
-                      className={`transition-colors duration-300 ${
-                        formData.query.length > 200
-                          ? "text-red-400 animate-pulse"
-                          : "text-gray-400"
-                      }`}
-                    >
-                      {200 - formData.query.length} characters remaining
-                    </span>
-                  </div>
-                  {errors.query && (
-                    <div className="text-red-400 text-sm mt-2 animate-pulse">
-                      {errors.query}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <button
-                onClick={handleSubmit}
-                disabled={!isFormValid || isSubmitting}
-                className={`w-full text-white py-4 rounded-lg transition duration-300 ease-in-out flex items-center justify-center font-semibold text-lg ${
-                  isFormValid && !isSubmitting
-                    ? "bg-orange-500 hover:bg-orange-600 active:scale-95"
-                    : "bg-gray-600 cursor-not-allowed opacity-50"
-                }`}
-              >
-                <Send className="mr-2" size={20} />
-                {isSubmitting ? "Processing..." : "Submit"}
-              </button>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default CheckoutPage;
+    <div className="min-h-screen bg-gradient-
