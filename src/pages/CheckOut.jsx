@@ -180,7 +180,7 @@ const CheckoutPage = () => {
 
     try {
       const { name, email, phone, plan, startDate, query } = formData;
-      const response = await api.post(`/users/send-query`, {
+      const response = await api.post(`/api/users/send-query`, {
         name,
         email,
         phone,
