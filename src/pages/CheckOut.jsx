@@ -12,7 +12,7 @@ import { plans } from "../content/siteContent.js";
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 
     (import.meta.env.PROD
-      ? "https://ju4m76xqr1.execute-api.eu-north-1.amazonaws.com/v1"
+      ? "https://xkpvpvp4pb.execute-api.eu-north-1.amazonaws.com/v1"
       : "/api"),
   headers: {
     "Content-Type": "application/json",
